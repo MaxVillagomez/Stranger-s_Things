@@ -14,6 +14,7 @@ import { getAllPosts } from './API/api';
 const App = () => {
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
+    const [token, setToken] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState({})
 
@@ -39,6 +40,14 @@ const App = () => {
                     <Route path="/home" element={<Homepage />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/posts" element={<Posts posts={posts} />} />
+                    {/* <Route path="/auth" element={
+                        <AuthForm
+                            token={token}
+                            setToken={setToken}
+                            currentUser={currentUser}
+                            setCurrentUser={setCurrentUser}
+                        />}
+                    /> */}
                 </Routes>
 
                 <footer>

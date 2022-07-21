@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
     return (
-        <nav>
-            <h3>Stranger's Things</h3>
-            <Link to="/home">Home</Link>
-            <Link to="/profile">Profile</Link>
-            <Link to="/posts">Posts</Link>
-        </nav>
+        <header className='flex'>
+            <nav>
+                <h3 className='flex-start'>Stranger's Things</h3>
+                <div className='navLinks'>
+                    <Link className={'none'} to="/home">Home</Link>
+                    <Link className={'none'} to="/profile">Profile</Link>
+                    <Link className={'none'} to="/posts">Posts</Link>
+                </div>
+            </nav>
+        </header>
     );
 }
 export default Navbar;

@@ -1,0 +1,26 @@
+.none {
+    text-decoration: none;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.center {
+    justify-content: center;
+    flex: 1;
+}
+
+.flex-end {
+    flex: 2;
+}
+
+.flex-start {
+    display: flex;
+    align-content: flex-start;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
+}
