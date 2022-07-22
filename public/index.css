@@ -1,0 +1,48 @@
+body {
+    display: flex;
+    background-color: #F5EDD3;
+}
+
+.none {
+    text-decoration: none;
+}
+
+/* .flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+} */
+
+.nav-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.center {
+    justify-content: center;
+    flex: 1;
+}
+
+.flex-end {
+    flex: 2;
+}
+
+.flex-start {
+    display: flex;
+    align-content: flex-start;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.header-flex {
+    display: flex;
+
+}
