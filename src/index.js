@@ -5,8 +5,9 @@ import { Homepage } from './components/index';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 import Posts from './components/Posts';
-import { getAllPosts } from './API/api';
-
+import { getAllPosts } from './API/index';
+import AuthForm from './components/AuthForm';
+import { getMe } from './API';
 
 
 
@@ -16,13 +17,30 @@ const App = () => {
     const [users, setUsers] = useState([]);
     const [token, setToken] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState({})
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        if (localStorage.token) {
+            setToken(localStorage.token);
+            setIsLoggedIn(!isLoggedIn);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            const fetchMe = async () => {
+                const { data } = await getMe(token);
+                setUser({ username: data.username });
+            };
+            fetchMe();
+        }
+    }, [isLoggedIn]);
+
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
                 const data = await getAllPosts();
-                console.log("This is the data: ", data)
                 setPosts(data.posts);
             } catch (error) {
                 console.error(error);
@@ -34,20 +52,20 @@ const App = () => {
     return (
         <div>
             <Router>
-                <Navbar />
+                <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
                 <Routes>
                     <Route path="/home" element={<Homepage />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/posts" element={<Posts posts={posts} />} />
-                    {/* <Route path="/auth" element={
-                        <AuthForm
-                            token={token}
-                            setToken={setToken}
-                            currentUser={currentUser}
-                            setCurrentUser={setCurrentUser}
-                        />}
-                    /> */}
+                    <Route path="/auth" element={<AuthForm
+                        token={token}
+                        setToken={setToken}
+                        user={user}
+                        setUser={setUser}
+                        setIsLoggedIn={setIsLoggedIn}
+                    />}
+                    />
                 </Routes>
 
                 <footer>
