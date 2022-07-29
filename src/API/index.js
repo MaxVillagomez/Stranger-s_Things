@@ -29,6 +29,7 @@ export async function getMe(token) {
     }
 }
 
+
 export async function login(user) {
     try {
         const { data } = await axios.post(`${API_URL}/users/login`, { user });
@@ -37,3 +38,12 @@ export async function login(user) {
         throw error;
     }
 }
+
+// export async function register(user) {
+//     try {
+//         const { token } = await axios.post(`${API_URL}/users/register`, { user });
+//         return token;
+//     } catch (error) {
+//         throw error;
+//     }
+// }

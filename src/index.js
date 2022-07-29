@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Homepage } from './components/index';
-import Navbar from './components/Navbar';
-import Profile from './components/Profile';
-import Posts from './components/Posts';
-import { getAllPosts } from './API/index';
-import AuthForm from './components/AuthForm';
-import { getMe } from './API';
-
-
-
+import {
+    getAllPosts,
+    getMe
+} from './API/index';
+import {
+    Navbar,
+    Profile,
+    Posts,
+    Homepage,
+    Login,
+    Register,
+    CreateNewPost
+} from './components/index';
 
 const App = () => {
     const [posts, setPosts] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
 
     useEffect(() => {
         if (localStorage.token) {
@@ -25,12 +32,13 @@ const App = () => {
             setIsLoggedIn(!isLoggedIn);
         }
     }, []);
-
+    
     useEffect(() => {
         if (token) {
             const fetchMe = async () => {
                 const { data } = await getMe(token);
                 setUser({ username: data.username });
+                setUserPosts({posts: data.posts})
             };
             fetchMe();
         }
@@ -49,23 +57,50 @@ const App = () => {
         fetchPosts();
     }, [])
 
+
     return (
         <div>
             <Router>
-                <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                <Navbar 
+                    isLoggedIn={isLoggedIn} 
+                    setIsLoggedIn={setIsLoggedIn} 
+                    setUser={setUser} 
+                    setToken={setToken}
+                 />
 
                 <Routes>
-                    <Route path="/home" element={<Homepage />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/posts" element={<Posts posts={posts} />} />
-                    <Route path="/auth" element={<AuthForm
-                        token={token}
-                        setToken={setToken}
-                        user={user}
-                        setUser={setUser}
-                        setIsLoggedIn={setIsLoggedIn}
-                    />}
+                    <Route path="/" element={<Homepage />} />
+                    <Route path="/profile" element={<Profile posts={posts} isLoggedIn={isLoggedIn} />} />
+                    <Route path="/posts" element={<Posts posts={posts} isLoggedIn={isLoggedIn}/>} />
+                    <Route path="/login" element={
+                        <Login
+                            setToken={setToken}
+                            username={username}
+                            password={password}
+                            setUserName={setUserName}
+                            setPassword={setPassword}
+                            setIsLoggedIn={setIsLoggedIn}
+                        />}
                     />
+                    <Route path="/register" element={
+                        <Register 
+                            username={username}
+                            password={password}
+                            setUserName={setUserName} 
+                            setPassword={setPassword}
+                        />}
+                    />
+                    <Route path="/createnewpost" element={
+                        <CreateNewPost
+                            title={title}
+                            setTitle={setTitle}
+                            description={description}
+                            setDescription={setDescription}
+                            price={price}
+                            setPrice={setPrice}
+                            isLoggedIn={isLoggedIn}
+                            token={token}
+                        />}/>
                 </Routes>
 
                 <footer>

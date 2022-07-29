@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { login } from '../API';
 
-function AuthForm({ token, setToken, setUser, setIsLoggedIn }) {
-    const [username, setUserName] = useState('');
-    const [password, setPassword] = useState('');
 
+
+
+function Login(props) {
+    const { 
+        username, 
+        setUserName, 
+        password, 
+        setPassword, 
+        setToken, 
+        setIsLoggedIn 
+    } = props;
+    
     async function handleSubmit(event) {
         event.preventDefault();
         const user = {
@@ -15,12 +25,8 @@ function AuthForm({ token, setToken, setUser, setIsLoggedIn }) {
         localStorage.token = data.token;
         setIsLoggedIn(true);
         setToken(localStorage.token);
-    }
-
-    function logOut() {
-        delete localStorage.token;
-        setIsLoggedIn(false);
-        setUser({});
+        setUserName('');
+        setPassword('');
     }
 
 
@@ -30,23 +36,23 @@ function AuthForm({ token, setToken, setUser, setIsLoggedIn }) {
                 <label className='flex'>
                     Username:
                     <input
-                        type='text'
+                        type='text' value={username}
                         onChange={(event) => setUserName(event.target.value)}
                     ></input>
                 </label>
                 <label>
                     Password:
                     <input
-                        type='text'
+                        type='text' value={password}
                         onChange={(event) => setPassword(event.target.value)}
                     ></input>
                 </label>
                 <button type='submit'>Login</button>
             </form>
 
-            <button onClick={logOut}>LogOut</button>
+            <Link to="/register">New User? Register here!</Link>
         </>
     );
 }
 
-export default AuthForm;
+export default Login;
