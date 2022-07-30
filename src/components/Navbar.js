@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar =
-  ({
+const Navbar = (props) => {
+  const {
     isLoggedIn,
     setIsLoggedIn,
     setUser,
     setToken,
-  }) => {
+  } = props; 
+
     function logOut() {
       delete localStorage.token;
       setToken("");
@@ -30,10 +31,11 @@ const Navbar =
               ? (<button onClick={logOut}>Logout</button>) 
               : (<Link className="none" to="/login">Login</Link>)
             }
+            
           </div>
         </nav>
       </header>
     );
   };
-  
+
 export default Navbar;

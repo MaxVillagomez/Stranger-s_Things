@@ -17,6 +17,7 @@ import {
 
 const App = () => {
     const [posts, setPosts] = useState([]);
+    const [userPosts, setUserPosts] = useState([]);
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
@@ -32,13 +33,19 @@ const App = () => {
             setIsLoggedIn(!isLoggedIn);
         }
     }, []);
-    
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setUserPosts('');
+        }
+    })
+
     useEffect(() => {
         if (token) {
             const fetchMe = async () => {
                 const { data } = await getMe(token);
                 setUser({ username: data.username });
-                setUserPosts({posts: data.posts})
+                setUserPosts(data.posts)
             };
             fetchMe();
         }
@@ -61,17 +68,28 @@ const App = () => {
     return (
         <div>
             <Router>
-                <Navbar 
-                    isLoggedIn={isLoggedIn} 
-                    setIsLoggedIn={setIsLoggedIn} 
-                    setUser={setUser} 
+                <Navbar
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                    setUser={setUser}
                     setToken={setToken}
-                 />
-
+                />
+                <div>
+                    {
+                        isLoggedIn
+                            ? `You are currently logged in as ${user.username}!`
+                            : null
+                    }
+                </div>
                 <Routes>
                     <Route path="/" element={<Homepage />} />
-                    <Route path="/profile" element={<Profile posts={posts} isLoggedIn={isLoggedIn} />} />
-                    <Route path="/posts" element={<Posts posts={posts} isLoggedIn={isLoggedIn}/>} />
+                    <Route path="/profile" element={
+                        <Profile
+                            userPosts={userPosts}
+                            setUserPosts={setUserPosts}
+                            isLoggedIn={isLoggedIn}
+                        />} />
+                    <Route path="/posts" element={<Posts posts={posts} isLoggedIn={isLoggedIn} />} />
                     <Route path="/login" element={
                         <Login
                             setToken={setToken}
@@ -83,10 +101,10 @@ const App = () => {
                         />}
                     />
                     <Route path="/register" element={
-                        <Register 
+                        <Register
                             username={username}
                             password={password}
-                            setUserName={setUserName} 
+                            setUserName={setUserName}
                             setPassword={setPassword}
                         />}
                     />
@@ -100,7 +118,7 @@ const App = () => {
                             setPrice={setPrice}
                             isLoggedIn={isLoggedIn}
                             token={token}
-                        />}/>
+                        />} />
                 </Routes>
 
                 <footer>

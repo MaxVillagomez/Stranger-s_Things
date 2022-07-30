@@ -15,13 +15,13 @@ const Posts = ({posts, isLoggedIn}) => {
             
             <div>
                 {
-                    posts.length ? posts.map((userPosts, idx) => {
-                        return <div key={userPosts.id}>
-                            <h1>{userPosts.title}</h1>
-                            <h3>{userPosts.author.username}</h3>
-                            <p>{userPosts.description}</p>
-                            <p>Price: {userPosts.price}</p>
-                            <p>Location: {userPosts.location}</p>
+                    posts.length ? posts.map((indivPosts, idx) => {
+                        return <div key={indivPosts.id}>
+                            <h1>{indivPosts.title}</h1>
+                            <h3>{indivPosts.author.username}</h3>
+                            <p>{indivPosts.description}</p>
+                            <p>Price: {indivPosts.price}</p>
+                            <p>Location: {indivPosts.location}</p>
                         </div>
                     }) : <div>No posts to display</div>
                 }
